@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anor — Milliy taomlar restorani</title>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f1e9;--ink:#0f2a3a;--card:#fffdf7;--accent:#c2410c;--teal:#1f6f6b;--gold:#e0a526;--line:#d9d4c3;--muted:#55646e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1d28;--ink:#f1ede0;--card:#14303f;--line:#26485a;--muted:#a3b4bd;--accent:#f08a4b}}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;line-height:1.6}
+h1,h2,h3{font-family:Marcellus,Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:Marcellus,serif;font-size:26px;text-decoration:none}
+nav a{margin-left:18px;text-decoration:none;font-size:15px;font-weight:500}
+nav a:hover{color:var(--accent)}
+.hero{background:var(--teal);color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;opacity:.14;background:repeating-conic-gradient(from 45deg at 50% 50%,#fff 0 12.5%,transparent 0 25%) 0 0/48px 48px}
+.hero .wrap{position:relative;padding-top:72px;padding-bottom:80px}
+.hero h1{font-size:clamp(40px,8vw,76px);max-width:700px}
+.hero p{max-width:480px;font-size:18px;margin:18px 0 28px}
+.btn{display:inline-block;background:var(--gold);color:#1a1405;border:0;border-radius:999px;padding:13px 26px;font:700 16px Manrope,sans-serif;cursor:pointer;text-decoration:none}
+.btn.alt{background:transparent;color:inherit;border:1.5px solid currentColor;margin-left:8px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+section{padding:64px 0}
+h2{font-size:clamp(30px,5vw,44px);margin-bottom:8px}
+.sub{color:var(--muted);margin:0 0 28px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px}
+.tab{flex:none;border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:8px 18px;font:600 15px Manrope,sans-serif;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.dish{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.dish .em{font-size:34px}
+.dish h3{font-size:22px}
+.dish p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.dish .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font-weight:700}
+.add{background:var(--teal);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:700 14px Manrope,sans-serif;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:760px){.two{grid-template-columns:1fr;gap:28px}nav a:not(.keep){display:none}}
+form{display:grid;gap:12px}
+label{font-size:14px;font-weight:600;display:grid;gap:4px}
+input,select{font:16px Manrope,sans-serif;padding:12px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);width:100%}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.msg{padding:14px;border-radius:8px;background:var(--teal);color:#fff;display:none}
+.msg.show{display:block}
+.err{color:var(--accent);font-size:14px;min-height:20px}
+.info{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px}
+.info p{margin:0 0 10px}
+footer{border-top:1px solid var(--line);padding:26px 0 90px;color:var(--muted);font-size:14px}
+#cart{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:none;z-index:30}
+#cart.on{display:block}
+#cart .wrap{display:flex;justify-content:space-between;align-items:center;padding:0}
+#panel{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:40;align-items:flex-end;justify-content:center}
+#panel.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:88%;overflow:auto;border-radius:16px 16px 0 0;padding:22px}
+.line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:8px}
+.qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+.qty span{display:inline-block;min-width:24px;text-align:center;font-weight:700}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin:14px 0}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="logo" href="#top">Anor</a>
+<nav><a href="#menyu">Menyu</a><a href="#bron">Stol bron qilish</a><a href="#aloqa" class="keep">Aloqa</a></nav></div></header>
+
+<div class="hero" id="top"><div class="wrap">
+<h1>Samarqand ta'mi, har kuni sizning dasturxoningizda</h1>
+<p>Qo'lda tortilgan lag'mon, tandirda pishgan somsa va ustaning oshi. Oilaviy kechki ovqat uchun stol band qiling yoki uyga buyurtma bering.</p>
+<a class="btn" href="#bron">Stol bron qilish</a><a class="btn alt" href="#menyu">Menyuni ko'rish</a>
+</div></div>
+
+<section id="menyu"><div class="wrap">
+<h2>Menyu</h2><p class="sub">Taomni tanlang, savatga qo'shing va buyurtma bering.</p>
+<div class="tabs" id="tabs"></div><div class="grid" id="grid"></div>
+</div></section>
+
+<section id="bron" style="background:var(--card);border-block:1px solid var(--line)"><div class="wrap two">
+<div><h2>Stol bron qilish</h2><p class="sub">Sana va vaqtni tanlang, biz telefon orqali tasdiqlaymiz.</p>
+<form id="bf" novalidate>
+<label>Ismingiz<input id="bn" autocomplete="name" placeholder="Masalan, Aziz"></label>
+<label>Telefon<input id="bp" type="tel" autocomplete="tel" placeholder="+998 90 123 45 67"></label>
+<div class="r2"><label>Sana<input id="bd" type="date"></label>
+<label>Vaqt<select id="bt"></select></label></div>
+<label>Mehmonlar soni<select id="bg"></select></label>
+<div class="err" id="be" role="alert"></div>
+<button class="btn" type="submit">Stolni band qilish</button>
+<div class="msg" id="bm" role="status"></div></form></div>
+<div class="info" id="aloqa"><h3>Bizga keling</h3><br>
+<p><b>Manzil:</b> Xorazm viloyati, Xonqa tumani</p>
+<p><b>Ish vaqti:</b> har kuni 10:00 – 23:00</p>
+<p><b>Telefon:</b> <a href="tel:+998976816465">+998 97 681 64 65</a></p>
+<p><b>Yetkazib berish:</b> Xonqa tumani bo'ylab, 45 daqiqada</p>
+<p style="margin:0;color:var(--muted)">To'y, tug'ilgan kun va yig'ilishlar uchun alohida zal bor.</p></div>
+</div></section>
+
+<footer><div class="wrap">© 2026 Anor restorani. Barcha huquqlar himoyalangan.</div></footer>
+
+<div id="cart"><div class="wrap"><span id="cs"></span><button class="btn" id="co">Savatni ochish</button></div></div>
+<div id="panel"><div class="sheet" role="dialog" aria-label="Savat">
+<h3>Sizning buyurtmangiz</h3><div id="lines"></div>
+<div class="tot"><span>Jami</span><span id="sum"></span></div>
+<form id="of" novalidate style="gap:10px">
+<input id="on" placeholder="Ismingiz" autocomplete="name"><input id="op" type="tel" placeholder="Telefon" autocomplete="tel"><input id="oa" placeholder="Yetkazish manzili" autocomplete="street-address">
+<div class="err" id="oe" role="alert"></div>
+<button class="btn" type="submit">Buyurtma berish</button>
+<button class="btn alt" type="button" id="cl" style="margin:0;color:var(--ink)">Yopish</button></form>
+<div class="msg" id="om" role="status"></div></div></div>
+
+<script>
+var MENU=[
+{c:"Osh va asosiy",n:"Samarqand oshi",d:"Qo'y go'shti, sarimsoq, no'xat va devzira guruch.",p:58000,e:"🍚"},
+{c:"Osh va asosiy",n:"Lag'mon",d:"Qo'lda cho'zilgan xamir, mol go'shti va yangi sabzavotlar.",p:42000,e:"🍜"},
+{c:"Osh va asosiy",n:"Dimlama",d:"Go'sht va kartoshka o'z sharbatida sekin dimlanadi.",p:54000,e:"🥘"},
+{c:"Osh va asosiy",n:"Qo'y shashlik (4 ta)",d:"Ko'mirda pishgan, piyoz va non bilan.",p:64000,e:"🍢"},
+{c:"Shurva va salat",n:"Mastava",d:"Guruchli, sabzavotli quyuq sho'rva, qatiq bilan.",p:28000,e:"🍲"},
+{c:"Shurva va salat",n:"Mol go'shtli sho'rva",d:"Katta bo'lak go'sht, kartoshka va ko'katlar.",p:32000,e:"🥣"},
+{c:"Shurva va salat",n:"Achichuk",d:"Pomidor, piyoz va achchiq qalampir.",p:14000,e:"🍅"},
+{c:"Somsa va xamir",n:"Tandir somsa",d:"Tandirda pishgan, ichi go'shtli va piyozli.",p:15000,e:"🥟"},
+{c:"Somsa va xamir",n:"Manti (5 ta)",d:"Bug'da pishirilgan, qovoqli yoki go'shtli.",p:38000,e:"🥟"},
+{c:"Somsa va xamir",n:"Issiq non",d:"Tandirdan yangi uzilgan, kunjutli.",p:6000,e:"🍞"},
+{c:"Ichimlik",n:"Ko'k choy",d:"Choynakda, 4 kishilik.",p:12000,e:"🍵"},
+{c:"Ichimlik",n:"Qora choy limon bilan",d:"Choynakda, 4 kishilik.",p:12000,e:"🫖"},
+{c:"Ichimlik",n:"Anor sharbati",d:"Yangi siqilgan, shakarsiz.",p:22000,e:"🍹"},
+{c:"Shirinlik",n:"Cho'ponchi halvasi",d:"Yong'oqli va asalli uy halvasi.",p:26000,e:"🍯"},
+{c:"Shirinlik",n:"Chak-chak",d:"Asal bilan qoplangan qovurilgan xamir.",p:24000,e:"🍪"}];
+var cats=[],cur="Barchasi",cart={};
+MENU.forEach(function(m){if(cats.indexOf(m.c)<0)cats.push(m.c)});
+function $(i){return document.getElementById(i)}
+function fm(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g," ")+" so'm"}
+function tabs(){var h="";["Barchasi"].concat(cats).forEach(function(c){h+='<button class="tab" aria-pressed="'+(c===cur)+'" data-c="'+c+'">'+c+'</button>'});$("tabs").innerHTML=h}
+function grid(){var h="";MENU.forEach(function(m,i){if(cur==="Barchasi"||m.c===cur)h+='<div class="dish"><div class="em" aria-hidden="true">'+m.e+'</div><h3>'+m.n+'</h3><p>'+m.d+'</p><div class="row"><span class="price">'+fm(m.p)+'</span><button class="add" data-i="'+i+'">Qo\'shish</button></div></div>'});$("grid").innerHTML=h}
+$("tabs").onclick=function(e){var c=e.target.getAttribute("data-c");if(c){cur=c;tabs();grid()}};
+$("grid").onclick=function(e){var i=e.target.getAttribute("data-i");if(i!==null){cart[i]=(cart[i]||0)+1;upd()}};
+function total(){var s=0,q=0;for(var k in cart){s+=MENU[k].p*cart[k];q+=cart[k]}return[s,q]}
+function upd(){var t=total();$("cart").className=t[1]?"on":"";$("cs").textContent=t[1]+" ta taom · "+fm(t[0]);
+var h="";for(var k in cart){h+='<div class="line"><span>'+MENU[k].n+'<br><small>'+fm(MENU[k].p)+'</small></span><span class="qty"><button data-m="'+k+'" aria-label="Kamaytirish">−</button><span>'+cart[k]+'</span><button data-p="'+k+'" aria-label="Ko\'paytirish">+</button></span></div>'}
+$("lines").innerHTML=h||"<p>Savat bo'sh. Menyudan taom tanlang.</p>";$("sum").textContent=fm(t[0]);if(!t[1])$("panel").className=""}
+$("lines").onclick=function(e){var m=e.target.getAttribute("data-m"),p=e.target.getAttribute("data-p");if(m!==null){cart[m]--;if(cart[m]<1)delete cart[m]}if(p!==null)cart[p]++;upd()};
+$("co").onclick=function(){$("om").className="msg";$("of").style.display="grid";$("panel").className="on"};
+$("cl").onclick=function(){$("panel").className=""};
+$("panel").onclick=function(e){if(e.target===this)this.className=""};
+function save(k,v){try{var a=JSON.parse(localStorage.getItem(k)||"[]");a.push(v);localStorage.setItem(k,JSON.stringify(a))}catch(x){}}
+function tg(t){return "https://t.me/+998976816465?text="+encodeURIComponent(t)}
+function okPhone(s){return s.replace(/\D/g,"").length>=9}
+$("of").onsubmit=function(e){e.preventDefault();var n=$("on").value.trim(),p=$("op").value,a=$("oa").value.trim();
+if(!n||!okPhone(p)||!a){$("oe").textContent="Ism, to'g'ri telefon raqam va manzilni kiriting.";return}
+$("oe").textContent="";var t=total();save("orders",{n:n,p:p,a:a,items:cart,sum:t[0],at:new Date().toISOString()});
+var L=[];for(var k in cart)L.push(MENU[k].n+" x"+cart[k]);var tx="Yangi buyurtma\n"+L.join("\n")+"\nJami: "+fm(t[0])+"\nIsm: "+n+"\nTelefon: "+p+"\nManzil: "+a;cart={};upd();$("of").style.display="none";$("om").innerHTML=n.replace(/[<>&"]/g,"")+", buyurtmani Telegram orqali yuboring, shunda tez yetkazamiz.<br><br><a class='btn' target='_blank' rel='noopener' href='"+tg(tx)+"'>Telegramda yuborish</a>";$("om").className="msg show";$("panel").className="on"};
+var ts=["12:00","13:00","14:00","17:00","18:00","19:00","20:00","21:00"];$("bt").innerHTML=ts.map(function(t){return"<option>"+t+"</option>"}).join("");
+var gs="";for(var i=1;i<=12;i++)gs+="<option>"+i+" kishi</option>";$("bg").innerHTML=gs;
+var td=new Date();td.setMinutes(td.getMinutes()-td.getTimezoneOffset());var ds=td.toISOString().slice(0,10);$("bd").min=ds;$("bd").value=ds;
+$("bf").onsubmit=function(e){e.preventDefault();var n=$("bn").value.trim(),p=$("bp").value,d=$("bd").value;
+if(!n||!okPhone(p)||!d||d<ds){$("be").textContent="Ism, to'g'ri telefon raqam va bugundan keyingi sanani kiriting.";$("bm").className="msg";return}
+$("be").textContent="";save("bookings",{n:n,p:p,d:d,t:$("bt").value,g:$("bg").value});
+var bx="Stol bron\nIsm: "+n+"\nTelefon: "+p+"\nSana: "+d+"\nVaqt: "+$("bt").value+"\nMehmonlar: "+$("bg").value;$("bm").innerHTML=n.replace(/[<>&"]/g,"")+", so'rovingiz tayyor. Bronni tasdiqlash uchun Telegramda yuboring.<br><br><a class='btn' target='_blank' rel='noopener' href='"+tg(bx)+"'>Telegramda yuborish</a>";$("bm").className="msg show";$("bf").reset();$("bd").value=ds};
+tabs();grid();upd();
+</script>
+</body>
+</html>
